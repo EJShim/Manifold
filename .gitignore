@@ -31,3 +31,9 @@ build*
 *.exe
 *.out
 *.app
+
+
+.vscode/
+**/*.stl
+**/*.vtp
+exp/output.obj
