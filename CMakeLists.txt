@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.12)
 project(Manifold)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
@@ -23,6 +23,21 @@ option(BUILD_PERFORMANCE_TEST "More subdivisition for performance test" OFF)
 option(BUILD_OPENMP "Enable support for OpenMP" OFF)
 option(BUILD_LOG "Enable verbose log" OFF)
 
+#For Python Wrapping
+find_package(Python COMPONENTS Interpreter Development NumPy)
+message(${Python_VERSION})
+message(${Python_EXECUTABLE})
+
+message(${Python_NumPy_FOUND})
+
+if(NOT EXISTS ${PYTHON_INCLUDE_DIR})
+    MESSAGE(FATAL_ERROR "Reported PYTHON_INCLUDE_DIR ${PYTHON_INCLUDE_DIR} does not exist!")
+endif()
+# MESSAGE(FATAL_ERROR "Reported PYTHON_INCLUDE_DIR ${PYTHON_INCLUDE_DIR} does not exist!")
+
+
+include_directories(${PYTHON_INCLUDE_DIR})
+link_directories(${Python_LIBRARY_DIRS})
 include_directories(src)
 include_directories(3rd)
 
@@ -60,8 +75,18 @@ add_executable(
     ${manifold_SRC}
 )
 
+add_library(
+    manifold_lib
+    SHARED
+    ${manifold_SRC}
+)
+
 add_executable(
     simplify
     ${simplify_SRC}
 )
 
+
+message(${PYTHON_INCLUDE_DIR})
+message(${PYTHON_LIBRARY})
+message(${Python_LIBRARY_DIRS})

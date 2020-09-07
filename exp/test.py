@@ -38,13 +38,16 @@ def addPointOrder(polydata):
 
     polydata.GetPointData().SetScalars(scalars)
 
-if __name__ == "__main__":    
+if __name__ == "__main__":
 
+
+    
+    app_path = os.path.join(root, "build", "manifold")
     input_path = "./sampleData/mandibular_nonmanifold.obj"
     output_path = "output.obj"
-    resolution = 30000
+    resolution = 100
     
-    cmd = "manifold %s %s %i" % (input_path, output_path, resolution)
+    cmd = "%s %s %s %i" % (app_path, input_path, output_path, resolution)
 
     
     #Write manifold obj file

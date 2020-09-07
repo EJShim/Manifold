@@ -37,3 +37,4 @@ build*
 **/*.stl
 **/*.vtp
 exp/output.obj
+**/*.dll
