@@ -23,7 +23,7 @@ def MakeActor(polydata):
 
 library_path = os.path.dirname(os.path.abspath(__file__))
 
-lib = cdll.LoadLibrary(os.path.join(library_path, "manifold_lib"))
+lib = cdll.LoadLibrary(os.path.join(library_path, "../build/manifold_lib"))
 
 lib.Calculate.restype = py_object
 
@@ -52,7 +52,7 @@ def CalculateManifold(polydata, resolution = 1000):
     #Calculate
     calculated = lib.Calculate( v.ctypes.data_as(POINTER(c_double)), v.size,
                     f.ctypes.data_as(POINTER(c_int)), f.size,
-                    resolution)
+                    c_int( resolution))
 
     vertices = np.array( calculated['vertices'])
     vertices = vertices.reshape(int(vertices.size/3), 3)
@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
 
     #Calculate Manifold, Save OBJ
-    manifold = CalculateManifold(polydata)
+    manifold = CalculateManifold(polydata, 100)
 
 
     #After Calculating
